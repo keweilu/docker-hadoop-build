@@ -2,7 +2,7 @@
 #
 # docker build -t sequenceiq/hadoop-nativelibs .
 
-FROM centos:7
+FROM centos:6
 
 USER root
 
