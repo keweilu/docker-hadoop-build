@@ -2,8 +2,7 @@
 #
 # docker build -t sequenceiq/hadoop-nativelibs .
 
-FROM tianon/centos:6.5
-MAINTAINER SequenceIQ
+FROM centos:7
 
 USER root
 
@@ -45,7 +44,7 @@ ENV M2_HOME /usr/share/apache-maven-${M2_VER}
 ENV PATH $PATH:$M2_HOME/bin
 
 # hadoop
-RUN curl -s http://apache.claz.org/hadoop/common/hadoop-2.8.1/hadoop-2.8.1-src.tar.gz  | tar -xz -C /tmp/
+RUN curl -s http://apache.claz.org/hadoop/common/hadoop-2.7.4/hadoop-2.7.4-src.tar.gz  | tar -xz -C /tmp/
 
 # protoc -ohhh
 RUN curl -L https://github.com/google/protobuf/releases/download/v2.5.0/protobuf-2.5.0.tar.bz2 | bunzip2 | tar -x -C /tmp
@@ -55,10 +54,10 @@ ENV LD_LIBRARY_PATH /usr/local/lib
 ENV export LD_RUN_PATH /usr/local/lib
 
 # build native libs
-RUN cd /tmp/hadoop-2.8.1-src && mvn package -Pdist,native -DskipTests -Dtar
+RUN cd /tmp/hadoop-2.7.4-src && mvn package -Pdist,native -DskipTests -Dtar
 
 # tar to stdout
-CMD tar -cv -C /tmp/hadoop-2.8.1-src/hadoop-dist/target/hadoop-2.8.1/lib/native/ .
+CMD tar -cv -C /tmp/hadoop-2.7.4-src/hadoop-dist/target/hadoop-2.7.4/lib/native/ .
 
 # docker run --rm  sequenceiq/hadoop-nativelibs > x.tar
 # get bintray helper
